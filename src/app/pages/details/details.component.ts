@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
 export class DetailsComponent implements OnInit {
   private urlPokemon = 'https://pokeapi.co/api/v2/pokemon';
   private urlName = 'https://pokeapi.co/api/v2/pokemon-species';
+  public showPokemon: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,8 +28,10 @@ export class DetailsComponent implements OnInit {
       `${this.urlPokemon}/${id}`
     );
     const name = this.pokeApiService.apiGetPokemons(`${this.urlName}/${id}`);
-    return forkJoin([name, pokemon]).subscribe((response) => {
-      console.log(response);
+
+    return forkJoin([pokemon, name]).subscribe((res) => {
+      this.showPokemon = res;
+      console.log(this.showPokemon[0]);
     });
   }
 }
